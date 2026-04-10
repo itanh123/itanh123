@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chứng chỉ &amp; học tập — Vũ Hải Anh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #6366f1;
+            --udemy: #5624d0;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem 1rem 3rem;
+        }
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .back:hover { color: #fff; }
+        h1 {
+            font-weight: 700;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            margin-bottom: 0.5rem;
+        }
+        .lead-sub {
+            color: var(--muted);
+            max-width: 42rem;
+            margin-bottom: 2rem;
+        }
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        .cert-card {
+            background: var(--card);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 1rem;
+            padding: 1.35rem 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .cert-card h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 0.75rem;
+            line-height: 1.4;
+        }
+        .cert-meta {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+        }
+        .cert-meta i { width: 1.1rem; margin-right: 0.35rem; }
+        .badge-platform {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            margin-bottom: 0.75rem;
+        }
+        .badge-udemy { background: rgba(86, 36, 208, 0.25); color: #c4b5fd; }
+        .badge-fpt { background: rgba(249, 115, 22, 0.2); color: #fdba74; }
+        .btn-verify {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+        .btn-verify a, .btn-verify .btn-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+        }
+        .pdf-card {
+            border-color: rgba(249, 115, 22, 0.35);
+        }
+        .pdf-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 1100px;">
+        <a class="back" href="index.html"><i class="fas fa-arrow-left"></i> Về trang chủ</a>
+        <h1><i class="fas fa-award text-warning"></i> Chứng chỉ &amp; học tập</h1>
+        <p class="lead-sub">
+            Các khóa học trên Udemy (kết hợp FPT Polytechnic) và chứng nhận từ FPT Polytechnic.
+            Có thể xác minh chứng chỉ Udemy qua liên kết; hai file PDF dưới đây là bản lưu trong kho mã nguồn.
+        </p>
+
+        <p class="section-label">PDF — FPT Polytechnic (PN00224)</p>
+        <div class="row g-3 mb-5">
+            <div class="col-md-6">
+                <div class="cert-card pdf-card">
+                    <span class="badge-platform badge-fpt">PDF 1</span>
+                    <h2>Chứng nhận FPT Polytechnic</h2>
+                    <p class="cert-meta mb-0">Tệp: PN00224_6953c445dead007ae8d859ea.pdf</p>
+                    <div class="pdf-actions">
+                        <a class="btn btn-outline-light btn-sm" href="certificates/PN00224_6953c445dead007ae8d859ea.pdf" download>
+                            <i class="fas fa-download"></i> Tải PDF
+                        </a>
+                        <a class="btn btn-outline-warning btn-sm" href="certificates/PN00224_6953c445dead007ae8d859ea.pdf" target="_blank" rel="noopener">
+                            <i class="fas fa-external-link-alt"></i> Mở trong tab mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="cert-card pdf-card">
+                    <span class="badge-platform badge-fpt">PDF 2</span>
+                    <h2>Chứng nhận FPT Polytechnic</h2>
+                    <p class="cert-meta mb-0">Tệp: PN00224_6953c3f9dead007ae8d85735.pdf</p>
+                    <div class="pdf-actions">
+                        <a class="btn btn-outline-light btn-sm" href="certificates/PN00224_6953c3f9dead007ae8d85735.pdf" download>
+                            <i class="fas fa-download"></i> Tải PDF
+                        </a>
+                        <a class="btn btn-outline-warning btn-sm" href="certificates/PN00224_6953c3f9dead007ae8d85735.pdf" target="_blank" rel="noopener">
+                            <i class="fas fa-external-link-alt"></i> Mở trong tab mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="section-label">Udemy × FPT Polytechnic</p>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <article class="cert-card">
+                    <span class="badge-platform badge-udemy">Udemy / FPT Polytechnic</span>
+                    <h2>Khởi sự doanh nghiệp — Hướng dẫn quá trình học tập</h2>
+                    <p class="cert-meta"><i class="fas fa-chalkboard-user"></i> Giảng viên Lê Thị Ngọc Anh</p>
+                    <p class="cert-meta"><i class="fas fa-user"></i> Haianh13102006</p>
+                    <p class="cert-meta"><i class="fas fa-calendar"></i> Ngày 19 tháng 3 năm 2026 · Thời lượng 11 phút</p>
+                    <p class="cert-meta small">Số chứng nhận: UC-fef7d028-340b-46a2-81bf-875f5ffcfd81</p>
+                    <div class="btn-verify">
+                        <a class="btn btn-primary btn-sm" href="https://ude.my/UC-fef7d028-340b-46a2-81bf-875f5ffcfd81" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-shield-halved"></i> Xác minh trên Udemy
+                        </a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6">
+                <article class="cert-card">
+                    <span class="badge-platform badge-udemy">Udemy</span>
+                    <h2>WEB1023 — Quản trị website</h2>
+                    <p class="cert-meta"><i class="fas fa-chalkboard-user"></i> Giảng viên Tạ Thị Hồng Trâm</p>
+                    <p class="cert-meta"><i class="fas fa-user"></i> Haianh13102006</p>
+                    <p class="cert-meta"><i class="fas fa-calendar"></i> Ngày 01 tháng 12 năm 2025 · Thời lượng 2 phút</p>
+                    <p class="cert-meta small">Số chứng nhận: UC-9a5544fa-c797-4d9b-bf38-78e41413aaa9</p>
+                    <div class="btn-verify">
+                        <a class="btn btn-primary btn-sm" href="https://ude.my/UC-9a5544fa-c797-4d9b-bf38-78e41413aaa9" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-shield-halved"></i> Xác minh trên Udemy
+                        </a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6">
+                <article class="cert-card">
+                    <span class="badge-platform badge-udemy">Udemy × FPT Polytechnic</span>
+                    <h2>WEB2064 — Lập trình Javascript nâng cao</h2>
+                    <p class="cert-meta"><i class="fas fa-chalkboard-user"></i> Giảng viên Tạ Thị Hồng Trâm</p>
+                    <p class="cert-meta"><i class="fas fa-user"></i> Haianh13102006</p>
+                    <p class="cert-meta"><i class="fas fa-calendar"></i> Ngày 01 tháng 12 năm 2025 · Thời lượng 4 phút</p>
+                    <p class="cert-meta small">Số chứng nhận: UC-1b033ecf-91ac-4b54-a387-cf9b7b414d71</p>
+                    <div class="btn-verify">
+                        <a class="btn btn-primary btn-sm" href="https://ude.my/UC-1b033ecf-91ac-4b54-a387-cf9b7b414d71" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-shield-halved"></i> Xác minh trên Udemy
+                        </a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6">
+                <article class="cert-card">
+                    <span class="badge-platform badge-udemy">Udemy</span>
+                    <h2>Wordpress Security — How To Stop Hackers</h2>
+                    <p class="cert-meta"><i class="fas fa-chalkboard-user"></i> Giảng viên Andrew Williams</p>
+                    <p class="cert-meta"><i class="fas fa-user"></i> Haianh13102006</p>
+                    <p class="cert-meta"><i class="fas fa-calendar"></i> Ngày 09 tháng 12 năm 2025 · Tổng 2,5 giờ</p>
+                    <p class="cert-meta small">Số chứng nhận: UC-99f35f3f-6902-438d-b45b-ae0b2c4f64da</p>
+                    <div class="btn-verify">
+                        <a class="btn btn-primary btn-sm" href="https://ude.my/UC-99f35f3f-6902-438d-b45b-ae0b2c4f64da" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-shield-halved"></i> Xác minh trên Udemy
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <p class="section-label">FPT Polytechnic — chứng nhận dự án (tóm tắt)</p>
+        <article class="cert-card mb-0">
+            <span class="badge-platform badge-fpt">FPT Polytechnic</span>
+            <h2>Xây dựng hệ thống quản lý &amp; tự động hóa quy trình hợp tác doanh nghiệp</h2>
+            <p class="cert-meta"><i class="fas fa-id-card"></i> Vũ Hải Anh — <strong>PN00224</strong></p>
+            <p class="cert-meta"><i class="fas fa-calendar-check"></i> Khóa học hoàn thành: ngày 29 tháng 12 năm 2025</p>
+            <p class="cert-meta small mb-0">Chi tiết đầy đủ trong các tệp PDF phía trên (xuongthuchanh.poly.edu.vn).</p>
+        </article>
+    </div>
+</body>
+</html>

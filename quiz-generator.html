@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generator — Demo giao diện</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --purple-header: #5b2d8c;
+            --purple-header-alt: #6f42c1;
+            --blue-action: #0d6efd;
+            --blue-soft: #e7f1ff;
+            --admin-sidebar: #1e2140;
+            --admin-sidebar-active: rgba(111, 66, 193, 0.35);
+            --page-bg: #f4f6f9;
+            --text-dark: #1a1a2e;
+            --text-muted: #6c757d;
+            --success-badge: #d1f4e0;
+            --success-text: #198754;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--page-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Mode switch bar */
+        .demo-switch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(90deg, #2d1b4e, var(--purple-header));
+            box-shadow: 0 2px 12px rgba(0,0,0,.2);
+        }
+        .demo-switch span {
+            color: rgba(255,255,255,.75);
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        .demo-switch button {
+            border: 1px solid rgba(255,255,255,.35);
+            background: transparent;
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+        }
+        .demo-switch button:hover {
+            background: rgba(255,255,255,.12);
+        }
+        .demo-switch button.active {
+            background: #fff;
+            color: var(--purple-header);
+            border-color: #fff;
+        }
+        .demo-switch a.back {
+            position: absolute;
+            left: 1rem;
+            color: rgba(255,255,255,.9);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .demo-switch a.back:hover { text-decoration: underline; }
+
+        .app-shell {
+            padding-top: 48px;
+            min-height: 100vh;
+        }
+
+        .mode-panel { display: none; min-height: calc(100vh - 48px); }
+        .mode-panel.is-visible { display: flex; }
+
+        /* ========== ADMIN MODE ========== */
+        .admin-layout {
+            width: 100%;
+            display: flex;
+            min-height: calc(100vh - 48px);
+        }
+        .admin-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--admin-sidebar);
+            color: #e8e8f0;
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem 0;
+        }
+        .admin-sidebar .label {
+            font-size: 0.7rem;
+            letter-spacing: .08em;
+            color: rgba(255,255,255,.45);
+            padding: 0 1.25rem 0.75rem;
+            text-transform: uppercase;
+        }
+        .admin-nav {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .admin-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.65rem 1.25rem;
+            color: rgba(255,255,255,.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            transition: background .15s;
+        }
+        .admin-nav a:hover {
+            background: rgba(255,255,255,.06);
+        }
+        .admin-nav a.active {
+            background: var(--admin-sidebar-active);
+            border-left-color: #a78bfa;
+            color: #fff;
+        }
+        .admin-nav a i { width: 1.25rem; text-align: center; opacity: .9; }
+        .admin-sidebar .logout {
+            margin-top: auto;
+            padding: 1rem 1.25rem 0;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .admin-sidebar .logout a {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            color: rgba(255,255,255,.65);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .admin-sidebar .logout a:hover { color: #fff; }
+
+        .admin-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .admin-topbar {
+            height: 56px;
+            background: linear-gradient(90deg, var(--purple-header), var(--purple-header-alt));
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 1.5rem;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.05rem;
+            gap: 0.5rem;
+        }
+        .admin-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .breadcrumb-row {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .page-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .page-head h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .page-head .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin: 0.35rem 0 0;
+        }
+        .btn-refresh {
+            border: 1px solid #dee2e6;
+            background: #fff;
+            border-radius: 0.5rem;
+            padding: 0.45rem 1rem;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04);
+        }
+        .stat-card h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 0 0 0.5rem;
+        }
+        .stat-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .stat-card .hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        .stat-card .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #fff;
+        }
+        .icon-box.users { background: #0d6efd; }
+        .icon-box.topics { background: #198754; }
+        .icon-box.questions { background: #ffc107; color: #333 !important; }
+        .icon-box.exams { background: #0dcaf0; color: #063 !important; }
+
+        /* ========== STUDENT MODE ========== */
+        .student-layout {
+            width: 100%;
+            display: flex;
+            min-height: calc(100vh - 48px);
+        }
+        .student-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            background: #fff;
+            border-right: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem 0;
+        }
+        .student-sidebar .label {
+            font-size: 0.7rem;
+            letter-spacing: .06em;
+            color: #adb5bd;
+            padding: 0 1.15rem 0.75rem;
+            text-transform: uppercase;
+        }
+        .student-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.65rem 1.15rem;
+            margin: 0 0.5rem;
+            border-radius: 0.5rem;
+            color: #495057;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .student-nav a:hover { background: #f8f9fa; }
+        .student-nav a.active {
+            background: var(--blue-soft);
+            color: var(--blue-action);
+            font-weight: 600;
+        }
+        .student-nav a i { width: 1.2rem; text-align: center; }
+        .student-sidebar .logout {
+            margin-top: auto;
+            padding: 1rem;
+        }
+        .student-sidebar .logout a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.65rem;
+        }
+
+        .student-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .student-topbar {
+            height: 56px;
+            background: linear-gradient(90deg, var(--purple-header), var(--purple-header-alt));
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 1.5rem;
+            color: #fff;
+            font-weight: 600;
+            gap: 0.5rem;
+        }
+        .student-content {
+            flex: 1;
+            padding: 1.5rem;
+            background: var(--page-bg);
+            overflow-y: auto;
+        }
+        .exam-page-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0 0 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .exam-page-title i { color: var(--purple-header-alt); }
+
+        .exam-card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            padding: 1.15rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04);
+        }
+        .exam-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .exam-card-head h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.35;
+        }
+        .badge-done {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            background: var(--success-badge);
+            color: var(--success-text);
+            white-space: nowrap;
+        }
+        .exam-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .exam-meta i { margin-right: 0.35rem; color: #adb5bd; }
+        .exam-desc {
+            font-size: 0.85rem;
+            color: #495057;
+            flex: 1;
+            margin-bottom: 1rem;
+            line-height: 1.45;
+        }
+        .exam-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+        }
+        .exam-stats div {
+            background: #f8f9fa;
+            padding: 0.5rem 0.65rem;
+            border-radius: 0.35rem;
+        }
+        .exam-stats strong { display: block; color: var(--text-muted); font-weight: 500; font-size: 0.72rem; }
+        .exam-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .exam-actions .btn-outline-secondary {
+            font-size: 0.85rem;
+        }
+        .exam-actions .btn-primary {
+            font-size: 0.85rem;
+            background: var(--blue-action);
+            border: none;
+        }
+
+        @media (max-width: 991px) {
+            .admin-sidebar, .student-sidebar {
+                width: 72px;
+            }
+            .admin-sidebar .label, .student-sidebar .label,
+            .admin-nav a span, .student-nav a span { display: none; }
+            .admin-nav a, .student-nav a { justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; }
+            .demo-switch span { display: none; }
+        }
+        @media (max-width: 576px) {
+            .demo-switch a.back { position: static; order: -1; width: 100%; text-align: center; margin-bottom: 0.25rem; }
+            .demo-switch { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-switch">
+        <a class="back" href="index.html#projects"><i class="fas fa-arrow-left"></i> Về portfolio</a>
+        <span>Demo Quiz Generator</span>
+        <button type="button" id="btn-admin" class="active">Quản trị</button>
+        <button type="button" id="btn-student">Học sinh</button>
+    </div>
+
+    <div class="app-shell">
+        <!-- ADMIN -->
+        <div id="panel-admin" class="mode-panel is-visible admin-layout">
+            <aside class="admin-sidebar">
+                <div class="label">Quản trị</div>
+                <nav class="admin-nav">
+                    <a href="#" class="active"><i class="fas fa-gauge-high"></i> <span>Dashboard</span></a>
+                    <a href="#"><i class="fas fa-users"></i> <span>Người dùng</span></a>
+                    <a href="#"><i class="fas fa-user-shield"></i> <span>Phân quyền</span></a>
+                    <a href="#"><i class="fas fa-folder"></i> <span>Chủ đề</span></a>
+                    <a href="#"><i class="fas fa-file-lines"></i> <span>Bài thi</span></a>
+                    <a href="#"><i class="fas fa-circle-question"></i> <span>Câu hỏi</span></a>
+                    <a href="#"><i class="fas fa-file-import"></i> <span>Nhập câu hỏi</span></a>
+                    <a href="#"><i class="fas fa-chart-bar"></i> <span>Kết quả</span></a>
+                    <a href="#"><i class="fas fa-robot"></i> <span>Cấu hình AI</span></a>
+                    <a href="#"><i class="fas fa-comments"></i> <span>Chat AI</span></a>
+                </nav>
+                <div class="logout">
+                    <a href="#"><i class="fas fa-right-from-bracket"></i> Đăng xuất</a>
+                </div>
+            </aside>
+            <div class="admin-main">
+                <header class="admin-topbar">
+                    <i class="fas fa-graduation-cap"></i> Quiz Generator
+                </header>
+                <main class="admin-content">
+                    <div class="breadcrumb-row">🏠 / Dashboard</div>
+                    <div class="page-head">
+                        <div>
+                            <h1><i class="fas fa-gauge-high text-primary"></i> Dashboard</h1>
+                            <p class="subtitle">Tổng quan hệ thống Quiz Generator</p>
+                        </div>
+                        <button type="button" class="btn-refresh"><i class="fas fa-arrows-rotate"></i> Refresh</button>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card">
+                                <div>
+                                    <h3>Người dùng</h3>
+                                    <div class="value">20</div>
+                                    <div class="hint">Quản lý tài khoản</div>
+                                </div>
+                                <div class="icon-box users"><i class="fas fa-users"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card">
+                                <div>
+                                    <h3>Chủ đề</h3>
+                                    <div class="value">45</div>
+                                    <div class="hint">Danh mục nội dung</div>
+                                </div>
+                                <div class="icon-box topics"><i class="fas fa-folder-tree"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card">
+                                <div>
+                                    <h3>Câu hỏi</h3>
+                                    <div class="value">128</div>
+                                    <div class="hint">Ngân hàng câu hỏi</div>
+                                </div>
+                                <div class="icon-box questions"><i class="fas fa-circle-question"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card">
+                                <div>
+                                    <h3>Bài thi</h3>
+                                    <div class="value">32</div>
+                                    <div class="hint">Đề đã tạo</div>
+                                </div>
+                                <div class="icon-box exams"><i class="fas fa-file-lines"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- STUDENT -->
+        <div id="panel-student" class="mode-panel student-layout">
+            <aside class="student-sidebar">
+                <div class="label">Học sinh</div>
+                <nav class="student-nav">
+                    <a href="#" class="active"><i class="fas fa-list"></i> <span>Bài thi</span></a>
+                    <a href="#"><i class="fas fa-robot"></i> <span>Tạo bài kiểm tra AI</span></a>
+                    <a href="#"><i class="fas fa-chart-column"></i> <span>Kết quả</span></a>
+                    <a href="#"><i class="fas fa-comment-dots"></i> <span>Chat AI</span></a>
+                </nav>
+                <div class="logout">
+                    <a href="#"><i class="fas fa-right-from-bracket"></i> Đăng xuất</a>
+                </div>
+            </aside>
+            <div class="student-main">
+                <header class="student-topbar">
+                    <i class="fas fa-graduation-cap"></i> Quiz Generator
+                </header>
+                <main class="student-content">
+                    <h2 class="exam-page-title"><i class="fas fa-list-ul"></i> Danh sách Bài thi</h2>
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-4">
+                            <article class="exam-card">
+                                <div class="exam-card-head">
+                                    <h3>Bài kiểm tra AI — Agile &amp; Scrum</h3>
+                                    <span class="badge-done">Đã làm</span>
+                                </div>
+                                <div class="exam-meta"><i class="fas fa-tag"></i> Agile &amp; Scrum</div>
+                                <p class="exam-desc">Ôn tập Scrum events, roles và artifacts.</p>
+                                <div class="exam-stats">
+                                    <div><strong>Câu hỏi</strong>5</div>
+                                    <div><strong>Thời gian</strong>15 phút</div>
+                                </div>
+                                <div class="exam-actions">
+                                    <button type="button" class="btn btn-outline-secondary flex-grow-1"><i class="fas fa-eye"></i> Xem chi tiết</button>
+                                    <button type="button" class="btn btn-primary flex-grow-1"><i class="fas fa-circle-play"></i> Làm bài thi</button>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <article class="exam-card">
+                                <div class="exam-card-head">
+                                    <h3>Bài kiểm tra PHP cơ bản</h3>
+                                    <span class="badge-done">Đã làm</span>
+                                </div>
+                                <div class="exam-meta"><i class="fas fa-tag"></i> Lập trình PHP cơ bản</div>
+                                <p class="exam-desc">Biến, mảng, form và xử lý dữ liệu POST.</p>
+                                <div class="exam-stats">
+                                    <div><strong>Câu hỏi</strong>10</div>
+                                    <div><strong>Thời gian</strong>20 phút</div>
+                                </div>
+                                <div class="exam-actions">
+                                    <button type="button" class="btn btn-outline-secondary flex-grow-1"><i class="fas fa-eye"></i> Xem chi tiết</button>
+                                    <button type="button" class="btn btn-primary flex-grow-1"><i class="fas fa-circle-play"></i> Làm bài thi</button>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <article class="exam-card">
+                                <div class="exam-card-head">
+                                    <h3>MySQL &amp; cơ sở dữ liệu</h3>
+                                    <span class="badge-done" style="background:#fff3cd;color:#856404;">Chưa làm</span>
+                                </div>
+                                <div class="exam-meta"><i class="fas fa-tag"></i> Cơ sở dữ liệu</div>
+                                <p class="exam-desc">SELECT, JOIN và chỉ mục đơn giản.</p>
+                                <div class="exam-stats">
+                                    <div><strong>Câu hỏi</strong>8</div>
+                                    <div><strong>Thời gian</strong>25 phút</div>
+                                </div>
+                                <div class="exam-actions">
+                                    <button type="button" class="btn btn-outline-secondary flex-grow-1"><i class="fas fa-eye"></i> Xem chi tiết</button>
+                                    <button type="button" class="btn btn-primary flex-grow-1"><i class="fas fa-circle-play"></i> Làm bài thi</button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var admin = document.getElementById('panel-admin');
+            var student = document.getElementById('panel-student');
+            var btnA = document.getElementById('btn-admin');
+            var btnS = document.getElementById('btn-student');
+            function show(which) {
+                if (which === 'admin') {
+                    admin.classList.add('is-visible');
+                    student.classList.remove('is-visible');
+                    btnA.classList.add('active');
+                    btnS.classList.remove('active');
+                } else {
+                    student.classList.add('is-visible');
+                    admin.classList.remove('is-visible');
+                    btnS.classList.add('active');
+                    btnA.classList.remove('active');
+                }
+            }
+            btnA.addEventListener('click', function () { show('admin'); });
+            btnS.addEventListener('click', function () { show('student'); });
+        })();
+    </script>
+</body>
+</html>
